@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from os import getenv as read_env
 from os import environ
+from pytz import timezone
 
         # config = ConfigObj("pvoutput.txt")
         # SYSTEMID = config['SYSTEMID']
@@ -14,7 +15,7 @@ from os import environ
 REQUIRED_ENVIRONMENT_VARIABLES = ['PVOUTPUT_SYSTEMID', 'PVOUTPUT_APIKEY']
 missing_vars = [var for var in REQUIRED_ENVIRONMENT_VARIABLES if var not in environ]
 if len(missing_vars) > 0:
-    raise Exception(f"Missing required variables: {missing_vars}")
+    raise Exception("Missing one or more required variables: " + ", ".join(missing_vars))
 
 # Register at pvoutput.org to get your SYSTEMID and APIKEY
 SYSTEMID=read_env('PVOUTPUT_SYSTEMID')
@@ -28,11 +29,11 @@ Inverters=1
 # no weather will be read, and tried uploaded to
 # pvoutput.org - together with your energy data.
 OWMKey=read_env('OWM_KEY', None)
-OWMLat=float(read_env('LAT',''))
-OWMLon=-float(read_env('LON',''))
+OWMLat=float(read_env('LAT','0.0'))
+OWMLon=-float(read_env('LON','0.0'))
 
 # Set your timezone string so pytz can grab your localtime inside docker
-TimeZone='Europe/Amsterdam'
+LocalTZ=timezone(read_env('TZ', 'Europe/Amsterdam'))
 
 # Devault inverter device
-INVERTER_DEVICE_ADDRESS= read_env("INVERTER_DEVICE_ADDRESS", '/dev/ttyUSB0')
+INVERTER_DEVICE = read_env("INVERTER_DEVICE_ADDRESS", '/dev/ttyUSB0')
