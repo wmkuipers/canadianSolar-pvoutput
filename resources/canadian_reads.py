@@ -9,7 +9,7 @@ from configobj import ConfigObj
 from pyowm import OWM
 from pymodbus.client.sync import ModbusSerialClient as ModbusClient
 
-from configuration import SYSTEMID, APIKEY, OWMKey, OWMLon, OWMLat, LocalTZ, INVERTER_DEVICE
+from configuration import SYSTEMID, APIKEY, OWMKey, OWMLon, OWMLat, LocalTZ, INVERTER_DEVICE, MODBUS_PORT
 
 
 # Local time with timezone
@@ -258,7 +258,7 @@ class PVOutputAPI(object):
 
 def main_loop():
     # init
-    inv = Inverter(0x1, INVERTER_DEVICE)
+    inv = Inverter(MODBUS_PORT, INVERTER_DEVICE)
     inv.version()
     if OWMKey:
         owm = Weather(OWMKey, OWMLat, OWMLon)

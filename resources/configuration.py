@@ -37,3 +37,5 @@ LocalTZ=timezone(read_env('TZ', 'Europe/Amsterdam'))
 
 # Devault inverter device
 INVERTER_DEVICE = read_env("INVERTER_DEVICE_ADDRESS", '/dev/ttyUSB0')
+
+MODBUS_PORT = read_env("MODBUS_PORT", "0x1"
