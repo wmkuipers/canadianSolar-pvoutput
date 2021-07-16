@@ -1,6 +1,6 @@
 # import asyncio
 import logging
-from sys import argv
+from sys import argv, exit
 import json
 
 from growattRS232 import GrowattRS232
@@ -21,15 +21,15 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 async def read_data_from_growatt():
-    port = str(argv[1]) if len(argv) > 1 else DEFAULT_PORT
-    address = int(argv[2]) if len(argv) > 2 else DEFAULT_ADDRESS
+    port = DEFAULT_PORT
+    address = DEFAULT_ADDRESS
     growattRS232 = GrowattRS232(port, address)
     try:
         data = await growattRS232.async_update()
         return data
     except Exception as error:
         print("Error: " + repr(error))
-        return None
+        exit(1)
 
 
 @app.route("/status")
